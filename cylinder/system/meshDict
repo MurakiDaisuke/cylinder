@@ -1,0 +1,140 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2206                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      meshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+surfaceFile "cylinder.fms";
+
+/*minCellSize 1e-7;*/
+
+maxCellSize 8e-6;
+
+keepCellsIntersectingBoundary 1;
+//boundaryCellSize 0.5e-5;
+
+objectRefinements
+{
+  cone1
+  {
+    type  cone;
+    cellSize  5e-7;
+    p0  (0 0 71e-6);
+    p1  (0 0 -71e-6);
+    radius0 5.8e-6;
+    radius1 5.8e-6;
+  }
+  cone2
+  {
+    type  cone;
+    cellSize  7e-7;
+    p0  (0 0 78e-6);
+    p1  (0 0 -78e-6);
+    radius0 10.8e-6;
+    radius1 10.8e-6;
+  }
+  cone3
+  {
+    type  cone;
+    cellSize  9e-7;
+    p0  (0 0 80e-6);
+    p1  (0 0 -80e-6);
+    radius0 12.8e-6;
+    radius1 12.8e-6;
+  }
+  cone4
+  {
+    type  cone;
+    cellSize  2e-6;
+    p0  (0 0 116e-6);
+    p1  (0 0 -116e-6);
+    radius0 48.8e-6;
+    radius1 48.8e-6;
+  }
+}
+
+localRefinement
+{
+  cylinder
+  {
+    /*cellSize  1.2e-7;*/
+    additionalRefinementLevels 5;
+    refinementThickness 1e-6;
+  }
+
+}
+
+boundaryLayers
+{
+
+    patchBoundaryLayers
+    {
+      cylinder
+      {
+        nLayers 3;
+
+        thicknessRatio 2;
+
+        maxFirstLayerThickness 5e-8;
+        //maxFirstLayerThickness 5e-7;
+
+        allowDiscontinuity 1;
+
+          optimiseLayer 1;
+      }
+
+    }
+}
+
+renameBoundary
+{
+  newPatchNames
+  {
+    xMin
+    {
+      newName inlet;
+      type patch;
+    }
+
+    xMax
+    {
+      newName outlet;
+      type patch;
+    }
+    yMin
+    {
+      newName sidewall2;
+      type patch;
+    }
+
+    yMax
+    {
+      newName sidewall1;
+      type patch;
+    }
+
+    zMin
+    {
+      newName lowerwall;
+      type wall;
+    }
+
+    zMax
+    {
+      newName upperwall;
+      type wall;
+    }
+  }
+}
+
+// ************************************************************************* //
